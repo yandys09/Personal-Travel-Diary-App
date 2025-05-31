@@ -3,10 +3,12 @@ import colors from "colors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import travelStoryRoutes from "./routes/travel.route.js";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -33,6 +35,12 @@ app.listen(3000, () => {
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/travel-story", travelStoryRoutes);
+
+// server static files from the upload and assets directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
