@@ -7,7 +7,7 @@ import path from "path";
 
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
-import travelStoryRoutes from "./routes/travel.route.js";
+import travelStoryRoutes from "./routes/travelStory.route.js";
 import { fileURLToPath } from "url";
 
 dotenv.config();
@@ -41,6 +41,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
