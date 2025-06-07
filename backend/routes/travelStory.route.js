@@ -5,6 +5,7 @@ import {
   deleteImage,
   deleteTravelStory,
   editTravelStory,
+  filterTravelStories,
   getAllTravelStory,
   imageUpload,
   searchTravelStory,
@@ -22,5 +23,6 @@ router.post("/edit-story/:id", verifyToken, editTravelStory);
 router.delete("/delete-story/:id", verifyToken, deleteTravelStory);
 router.put("/update-is-favorite/:id", verifyToken, updateIsFavorite);
 router.get("/search", verifyToken, searchTravelStory);
+router.get("/filter", verifyToken, filterTravelStories)
 
 export default router;
