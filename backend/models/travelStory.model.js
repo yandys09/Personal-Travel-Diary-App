@@ -14,7 +14,7 @@ const travelStorySchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    idFavorite: {
+    isFavorite: {
       type: Boolean,
       default: false,
     },
