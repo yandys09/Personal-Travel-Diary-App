@@ -7,6 +7,7 @@ import {
   editTravelStory,
   getAllTravelStory,
   imageUpload,
+  searchTravelStory,
   updateIsFavorite,
 } from "../controllers/travelStory.controll.js";
 import upload from "../multer.js";
@@ -17,8 +18,9 @@ router.post("/image-upload", upload.single("image"), imageUpload);
 router.delete("/delete-image", deleteImage);
 router.post("/add", verifyToken, addTravelStory);
 router.get("/get-all", verifyToken, getAllTravelStory);
-router.post("/edit-story/:id", verifyToken, editTravelStory )
-router.delete("/delete-story/:id", verifyToken, deleteTravelStory)
-router.put("/update-is-favorite/:id", verifyToken, updateIsFavorite)
+router.post("/edit-story/:id", verifyToken, editTravelStory);
+router.delete("/delete-story/:id", verifyToken, deleteTravelStory);
+router.put("/update-is-favorite/:id", verifyToken, updateIsFavorite);
+router.get("/search", verifyToken, searchTravelStory);
 
 export default router;
