@@ -3,17 +3,18 @@ import moment from "moment"
 import { FaLocationDot } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
 
-const TravelStroyCard = ({ imageUrl, title, story, date, visitedLocation, isFavourite, onEdit, onClick, onFavouriteClick }) => {
+const TravelStroyCard = ({ imageUrl, title, story, date, visitedLocation, isFavorite, onEdit, onClick, onFavoriteClick }) => {
+  console.log("isFavorite : ", isFavorite)
   return (
     <div className="border border-slate-200 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:shadow-slate-200 transition-all ease-in-out relative cursor-pointer">
 
       <img src={imageUrl} alt={title} className='w-full h-56 object-cover rounded-lg' onClick={onClick} />
       <button
         className="w-12 h-12 flex items-center justify-center bg-white/40 rounded-lg border border-white/30 absolute top-4 right-4"
-        onClick={onFavouriteClick}
+        onClick={onFavoriteClick}
       >
         <FaHeart
-          className={`icon-btn ${isFavourite ? "text-red-500" : "text-white"
+          className={`icon-btn ${isFavorite ? "text-red-500" : "text-gray"
             } hover:text-red-500`}
         />
       </button>
