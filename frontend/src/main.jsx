@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import { store, persistor } from "./redux/store.js";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import "react-day-picker/style.css";
 
 createRoot(document.getElementById("root")).render(
   <PersistGate persistor={persistor}>
