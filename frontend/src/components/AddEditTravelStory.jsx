@@ -5,6 +5,11 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import DateSelector from './DateSelector';
 import ImageSelector from './ImageSelector';
 import TagInput from './TagInput';
+import uploadImage from './../utils/uploadImage';
+import axiosInstance from '../utils/axiosInstance';
+import moment from 'moment';
+import {toast} from "react-toastify";
+
 
 const AddEditTravelStory = ({ storyInfo, type, onClose, getAllTravelStories }) => {
 
@@ -13,9 +18,60 @@ const AddEditTravelStory = ({ storyInfo, type, onClose, getAllTravelStories }) =
   const [storyImg, setStoryImg] = useState(null);
   const [story, setStory] = useState("");
   const [visitedLocation, setVisitedLocation] = useState([]);
+  const [error, setError] = useState("");
+
+  const addNewTravelStory = async () => {
+    try {
+      let imageUrl = ""
+
+      // Upload image i fpresent 
+      if (storyImg) {
+        const imgUploadRes = await uploadImage(storyImg)
+
+        imageUrl = imgUploadRes.imageUrl || ""
+      }
+      const response = await axiosInstance.post("/travel-story/add", {
+        title,
+        story,
+        imageUrl: imageUrl || "",
+        visitedDate: visitedDate ? moment(visitedDate).valueOf() : moment().valueOf(),
+        visitedLocation
+      })
+
+      if (response.data && response.data.story) {
+        toast.success("Travel Story Added Successfully!")
+
+        getAllTravelStories()
+
+        onClose()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const updateTravelStory = async () => {
+
+  }
 
   const handleAddOrUpdateClick = () => {
+    if (!title) {
+      setError("Please enter a title for your story.")
+      return
+    }
 
+    if (!story) {
+      setError("Please share your story in the story field.")
+      return
+    }
+
+    setError("")
+
+    if (type === "edit") {
+      updateTravelStory()
+    } else {
+      addNewTravelStory()
+    }
   }
 
   const handleDeleteStoryImage = () => {
@@ -49,8 +105,13 @@ const AddEditTravelStory = ({ storyInfo, type, onClose, getAllTravelStories }) =
             <button className="" onClick={onClose}>
               <IoMdClose className='text-xl text-slate-400' />
             </button>
-
           </div>
+          {
+            error && (
+              <p className="text-red-500 text-xs pt-2 text-right">{error}</p>
+            )
+
+          }
         </div>
       </div>
 
