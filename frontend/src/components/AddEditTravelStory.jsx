@@ -8,16 +8,16 @@ import TagInput from './TagInput';
 import uploadImage from './../utils/uploadImage';
 import axiosInstance from '../utils/axiosInstance';
 import moment from 'moment';
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 
 const AddEditTravelStory = ({ storyInfo, type, onClose, getAllTravelStories }) => {
 
-  const [visitedDate, setVisitedDate] = useState(null);
-  const [title, setTitle] = useState("");
-  const [storyImg, setStoryImg] = useState(null);
-  const [story, setStory] = useState("");
-  const [visitedLocation, setVisitedLocation] = useState([]);
+  const [visitedDate, setVisitedDate] = useState(storyInfo?.visitedDate || null);
+  const [title, setTitle] = useState(storyInfo?.title || "");
+  const [storyImg, setStoryImg] = useState(storyInfo?.imageUrl || null);
+  const [story, setStory] = useState(storyInfo?.story || "");
+  const [visitedLocation, setVisitedLocation] = useState(storyInfo?.visitedLocation || []);
   const [error, setError] = useState("");
 
   const addNewTravelStory = async () => {
@@ -69,8 +69,50 @@ const AddEditTravelStory = ({ storyInfo, type, onClose, getAllTravelStories }) =
       addNewTravelStory()
     }
   }
-  
+
   const updateTravelStory = async () => {
+    const storyId = storyInfo._id
+
+    try {
+      let imageUrl = ""
+
+      const postData = {
+        title,
+        story,
+        imageUrl: storyInfo.imageUrl || "",
+        visitedLocation,
+        visitedDate: visitedDate ? moment(visitedDate).valueOf() : moment().valueOf(),
+      }
+
+      if (typeof storyImg === "object") {
+        // Upload new Image
+        const imageUploadRes = await uploadImage(storyImg)
+        imageUrl = imageUploadRes.imageUrl || ""
+        const postData = {
+          ...postData,
+          imageUrl: imageUrl,
+        }
+      }
+
+      const response = await axiosInstance.post("/travel-story/edit-story/" + storyId, postData)
+
+      if (response.data && response.data.story) {
+        toast.success("Story updated successfully!")
+
+        getAllTravelStories()
+
+        onClose()
+      }
+
+    } catch (error) {
+      if (error.response &&
+        error.response.data &&
+        error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong! Please try again.")
+      }
+    }
 
   }
   const handleDeleteStoryImage = () => {
