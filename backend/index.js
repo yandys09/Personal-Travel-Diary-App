@@ -13,7 +13,7 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 
-mongoose
+const dbserver = mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Database is connected!!.".bgCyan);
@@ -38,8 +38,9 @@ app.use(cookieParser());
 //for allowing json object in req body
 app.use(express.json());
 
-app.listen(3000, () => {
+const server = app.listen(3000, () => {
   console.log("Server is running on port 3000.".bgMagenta);
+  
 });
 
 app.use("/api/auth", authRoutes);
@@ -65,3 +66,6 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
+
+export default server;

@@ -4,7 +4,6 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
 
 const TravelStroyCard = ({ imageUrl, title, story, date, visitedLocation, isFavorite, onEdit, onClick, onFavoriteClick }) => {
-  console.log("isFavorite : ", isFavorite)
   return (
     <div className="border border-slate-200 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:shadow-slate-200 transition-all ease-in-out relative cursor-pointer">
 
